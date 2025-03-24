@@ -6,7 +6,11 @@
     "dev": "tsx watch src/main.ts",
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "npx tsx src/index.ts",
+    "com:ts-add": "ts-node commands/add-test-cases.command.ts",
+    "com:ts-delete": "ts-node commands/delete-test-cases.command.ts",
+    "com:ts-update": "ts-node commands/update-test-cases.command.ts"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,6 +39,7 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "axios": "^1.8.1"
+    "axios": "^1.8.1",
+    "dotenv": "^16.4.7"
   }
 }

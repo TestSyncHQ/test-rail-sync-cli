@@ -1,10 +1,10 @@
-export const CASE_TEMPLATE = {
+export const TEST_CASE_TEMPLATE = {
   "Exploratory Charter": 0,
   "Test Case": 1,
   "UniTest / WebIR": 2,
 };
 
-export const CASE_TYPE = {
+export const TEST_CASE_TYPE = {
   "API Unit Test": 1,
   "API Postman": 0,
   "Autify ETE Test": 2,
@@ -24,19 +24,19 @@ export const CASE_TYPE = {
   "Unit Test": 16,
 };
 
-export const CASE_PRIORITY = {
+export const TEST_CASE_PRIORITY = {
   "1 - Don't Test": 0,
   "2 - Test If Time": 1,
   "3 - MustTest": 2,
 };
 
-export const CASE_MANUAL_VS_AUTOMATED = {
+export const TEST_CASE_MANUAL_VS_AUTOMATED = {
   None: 0,
   Manual: 1,
   Automated: 3,
 };
 
-export const CASE_TYPE_AUTOMATION = {
+export const TEST_CASE_TYPE_AUTOMATION = {
   "None": 0,
   "Manual": 1,
   "Under ENG development (manually tested)": 2,
@@ -52,7 +52,7 @@ export const CASE_TYPE_AUTOMATION = {
   "Smoke Test": 12,
 };
 
-export const CASE_AUTOMATION_TOOL_TYPE = {
+export const TEST_CASE_AUTOMATION_TOOL_TYPE = {
   None: 0,
   Jest: 1,
   Autify: 2,
@@ -69,7 +69,7 @@ export const CASE_AUTOMATION_TOOL_TYPE = {
   Airflow: 13,
 };
 
-export const CASE_TEST_LEVEL = {
+export const TEST_CASE_TEST_LEVEL = {
   "None": 0,
   "Unit test": 1,
   "Integration test": 2,
@@ -82,21 +82,22 @@ export const CASE_TEST_LEVEL = {
   "Sanity Test": 9,
 };
 
-export const CASE_STATUS_ID = {
+export const TEST_CASE_STATUS_ID = {
   "Mark As Deleted": 3,
 };
 
-export type Case = {
-  section_id?: string;
+export type TestCase = {
+  section_id: string;
   id?: string;
   title?: string;
-  template?: typeof CASE_TEMPLATE;
-  type_id?: typeof CASE_TYPE;
-  priority_id?: typeof CASE_PRIORITY;
+  template?: number;
+  type_id?: number;
+  priority_id?: number;
   refs?: string;
-  custom_manual_vs_automated?: typeof CASE_MANUAL_VS_AUTOMATED;
-  custom_manual_automated?: typeof CASE_TYPE_AUTOMATION;
-  custom_automation_tool_type?: typeof CASE_AUTOMATION_TOOL_TYPE;
-  custom_test_level?: typeof CASE_TEST_LEVEL;
-  custom_status_id?: typeof CASE_STATUS_ID;
+  milestone?: string;
+  custom_manual_vs_automated?: number;
+  custom_manual_automated?: number;
+  custom_automation_tool_type?: number;
+  custom_test_level?: number;
+  custom_status_id?: number;
 };

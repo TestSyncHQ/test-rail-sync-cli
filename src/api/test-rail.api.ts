@@ -1,27 +1,44 @@
 import axios from "axios";
-import type { Case } from "../definitions/case.definitions";
-import { CONFIG } from "../definitions/config.definitions";
+import { ENV } from "../config/env.config";
+import type { Suite } from "../definitions/suite.definitions";
+import type { TestCase } from "../definitions/test-case.definitions";
 
-const { organizationUrl, username, password, projectId, suiteId } = CONFIG.api;
+const { organizationUrl, username, password, projectId, suiteId } = ENV.api;
+const { section_id } = ENV.testCase;
 
 const axiosInstance = axios.create({
   baseURL: `${organizationUrl}/api/v2/`,
   auth: { username, password },
   headers: { "Content-Type": "application/json" },
-  timeout: 5 * 1000,
 });
 
-export async function addCase(testCase: Case): Promise<Case> {
+export async function addCase(testCase: TestCase): Promise<TestCase> {
   const response = await axiosInstance.post(`add_case/${testCase.section_id}`, testCase);
   return response.data;
 }
 
-export async function getCase(id: Case["id"]): Promise<Case> {
+export async function deleteCase(id: TestCase["id"]): Promise<TestCase> {
+  const response = await axiosInstance.post(`delete_case/${id}`);
+  return response.data;
+}
+
+export async function getCase(id: TestCase["id"]): Promise<TestCase> {
   const response = await axiosInstance.get(`get_test/${id}`);
   return response.data;
 }
 
-export async function getCases(sectionId: Case["section_id"]): Promise<Case[]> {
-  const response = await axiosInstance.get(`get_cases/${projectId}&suite_id=${suiteId}&section_id=${sectionId}`);
+export async function getCases(): Promise<TestCase[]> {
+  const response = await axiosInstance.get(`get_cases/${projectId}&suite_id=${suiteId}&section_id=${section_id}`);
   return response.data.cases;
+}
+
+export async function getSuites(): Promise<Suite[]> {
+  const response = await axiosInstance.get(`get_suites/${projectId}`);
+  return response.data;
+}
+
+export async function updateCase(testCase: TestCase): Promise<TestCase> {
+  const { id, ...data } = testCase;
+  const response = await axiosInstance.post(`update_case/${id}`, data);
+  return response.data;
 }
