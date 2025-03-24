@@ -43,11 +43,19 @@ A command-line interface for integrating unit tests with TestRail
 Create a `.env` file in the root directory with the following variables (you can use `.env_default` as a template):
 
 ```
+# TestRail API configuration
 TRSC_API_USERNAME=your-testrail-username
 TRSC_API_KEY=your-testrail-api-key
 TRSC_API_ORGANIZATION_URL=your-testrail-organization-url
 TRSC_API_PROJECT_ID=your-project-id
 TRSC_API_SUITE_ID=your-suite-id
+
+# Folders configuration
+TRSC_SCAN_SOURCE
+TRSC_SCAN_TEST_FILE_PATH
+TRSC_SCAN_ROOT_DIRECTORY
+TRSC_SCAN_TEST_FILE_EXTENSIONS
+TRSC_SCAN_EXCLUDED_FOLDERS
 
 # Test case configuration
 TRSC_TEST_CASE_SECTION_ID=your-section-id
