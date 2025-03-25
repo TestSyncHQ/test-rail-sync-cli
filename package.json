@@ -8,9 +8,7 @@
     "test": "jest",
     "lint": "eslint .",
     "start": "npx tsx src/index.ts",
-    "com:ts-add": "ts-node commands/add-test-cases.command.ts",
-    "com:ts-delete": "ts-node commands/delete-test-cases.command.ts",
-    "com:ts-update": "ts-node commands/update-test-cases.command.ts"
+    "trsc:add": "npx tsx src/commands/add-test-cases.command.ts"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
