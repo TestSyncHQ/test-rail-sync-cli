@@ -1,5 +1,5 @@
 export type Suite = {
-  id?: number;
+  id?: string;
   name?: string;
   url?: string;
 };
