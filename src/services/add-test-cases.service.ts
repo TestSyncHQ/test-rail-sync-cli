@@ -1,20 +1,20 @@
 import { addCase } from "../api/test-rail.api";
 import { ENV } from "../config/env.config";
-import { ANSIColor } from "../definitions/console.definitions";
-import type { TestCase } from "../definitions/test-case.definitions";
+import type { TestCase, TestCaseDescriptions } from "../definitions/test-case.definitions";
 import { promptTestCaseOptions } from "../utils/console.utils";
-import { getFilePaths } from "../utils/file-paths.utils";
-import { parseDescriptions, readFileContent } from "../utils/file-reader.utils";
-import { updateFileContent } from "../utils/file-writer.utils";
+import { getFilePaths, readFile, writeFile } from "../utils/file.utils";
+import { extractDescriptionsWithoutId, replaceDescriptions } from "../utils/test-case.utils";
 
-async function addTestCases(descriptions: string[][], options: TestCase): Promise<TestCase[]> {
+async function addTestCases(descriptions: TestCaseDescriptions, options: TestCase): Promise<TestCase[]> {
   const testCases = [];
 
   for (const [, title] of descriptions) {
     try {
       const testCase = await addCase({ ...options, title });
-      console.log(`'${testCase.id}: ${testCase.title}' added to TestRail`);
+      if (!testCase) continue;
+
       testCases.push(testCase);
+      console.log(`'${testCase.id}: ${testCase.title}' added to TestRail`);
     } catch (error) {
       console.error(`Failed to add '${title}' to TestRail`, error);
     }
@@ -23,10 +23,17 @@ async function addTestCases(descriptions: string[][], options: TestCase): Promis
   return testCases;
 }
 
+function updateFileContent(filePath: string, fileContent: string, testCases: TestCase[]): void {
+  if (!testCases.length) return;
+
+  const newFileContent = replaceDescriptions(fileContent, testCases);
+  writeFile(filePath, newFileContent);
+  console.log(`${filePath} file updated\n`);
+}
+
 export async function addTestCasesService(): Promise<void> {
   console.log("\nAdding test cases...\n");
   const options = ENV.scan.source === "console" ? await promptTestCaseOptions() : ENV.testCase;
-
   const filesPaths = await getFilePaths();
 
   let success = 0;
@@ -36,14 +43,10 @@ export async function addTestCasesService(): Promise<void> {
     console.log(`Processing file ${filePath}...`);
 
     try {
-      const fileContent = readFileContent(filePath) || "";
-      const descriptions = parseDescriptions(filePath).filter(([id]) => !id);
+      const fileContent = readFile(filePath) || "";
+      const descriptions = extractDescriptionsWithoutId(fileContent);
       const testCases = await addTestCases(descriptions, options);
-
-      if (testCases.length) {
-        updateFileContent(filePath, fileContent, testCases);
-        console.log(`${filePath} file updated\n`);
-      }
+      updateFileContent(filePath, fileContent, testCases);
 
       success = testCases.length + success;
       fail = descriptions.length - testCases.length + fail;
@@ -52,6 +55,6 @@ export async function addTestCasesService(): Promise<void> {
     }
   }
 
-  console.log(ANSIColor.Green, `${success} test cases added to TestRail`);
-  console.log(ANSIColor.Red, `${fail} test cases failed to add to TestRail`);
+  console.log(`${success} test cases added to TestRail`);
+  console.log(`${fail} test cases failed to add to TestRail`);
 }

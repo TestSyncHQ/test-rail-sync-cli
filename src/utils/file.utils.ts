@@ -16,17 +16,12 @@ function isTestFile(filePath = testFilePath): boolean {
 }
 
 async function fromConsole(): Promise<string[]> {
-  // const options = await promptTestCaseOptions();
-  // const filePath = await getFilePath("Enter the test cases file path: ");
-  // return [[filePath], options];
   const filePath = await getInput("Enter the test cases file path: ");
   const fullPath = path.resolve(rootPath, filePath);
   return [fullPath];
 }
 
 function fromFile(): string[] {
-  // const { scan, testCase } = ENV;
-  // return [[scan.testFilePath], testCase];
   return [ENV.scan.testFilePath];
 }
 
@@ -39,7 +34,7 @@ function fromGit(): string[] {
     .split("\n")
     .map((line: string) => line.trim())
     .filter((line: string) => line.length > 0)
-    .map((line: string) => line.slice(3).trim()) // Extract file path from status output
+    .map((line: string) => line.slice(2).trim()) // Extract file path from status output
     .filter((filePath: string) => {
       if (!excludedFolders?.length || !isTestFile(filePath)) {
         return false;
@@ -100,4 +95,12 @@ export async function getFilePaths(source = ENV.scan.source): Promise<string[]> 
     default:
       throw new Error("Invalid source");
   }
+}
+
+export function readFile(filePath: string): string {
+  return fs.readFileSync(filePath, "utf8");
+}
+
+export function writeFile(filePath: string, fileContent: string): void {
+  fs.writeFileSync(filePath, fileContent, "utf8");
 }

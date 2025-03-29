@@ -101,3 +101,5 @@ export type TestCase = {
   custom_test_level?: number;
   custom_status_id?: number;
 };
+
+export type TestCaseDescriptions = (TestCase["id"] | TestCase["title"])[][];
