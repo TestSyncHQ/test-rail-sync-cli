@@ -22,6 +22,7 @@ function extractDescriptions(fileContent: string): TestCaseDescriptions {
 
   return results;
 }
+
 export function extractDescriptionsWithId(fileContent: string): TestCaseDescriptions {
   const descriptions = extractDescriptions(fileContent);
   return descriptions.filter(([id]) => !!id);

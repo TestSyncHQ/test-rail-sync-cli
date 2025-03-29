@@ -40,7 +40,6 @@ export default [
       },
       "import/extensions": [".ts", ".tsx"],
       "react": { version: "detect" },
-      "next": { rootDir: "./src/idp" },
     },
     rules: {
       ...js.configs.recommended.rules,
