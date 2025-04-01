@@ -1,10 +1,8 @@
 module.exports = {
   clearMocks: true,
-  collectCoverageFrom: ["**/*.{ts,tsx}"],
-  coverageDirectory: "coverage",
-  displayName: "shared",
   preset: "ts-jest",
   roots: ["./"],
+  setupFilesAfterEnv: ["<rootDir>/src/config/jest.config.ts"],
   testEnvironment: "node",
-  testMatch: ["**/?(*.)+(spec).[jt]s?(x)"],
+  testMatch: ["**/__test__/?(*.)+(spec).ts?(x)"],
 };

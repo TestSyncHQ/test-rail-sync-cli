@@ -10,6 +10,7 @@ import jest from "eslint-plugin-jest";
 export default [
   {
     // Apply to all TypeScript & JavaScript files
+    ignores: ["dist/**", "build/**", "node_modules/**"],
     files: ["**/*.{ts,tsx,js,jsx}"],
     languageOptions: {
       parser: tsParser,
@@ -28,7 +29,7 @@ export default [
       prettier,
       "no-unsanitized": noUnsanitized,
       "unused-imports": unusedImports,
-      import: importPlugin,
+      "import": importPlugin,
       jest,
     },
     settings: {
@@ -38,8 +39,7 @@ export default [
         },
       },
       "import/extensions": [".ts", ".tsx"],
-      react: { version: "detect" },
-      next: { rootDir: "./src/idp" },
+      "react": { version: "detect" },
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -60,8 +60,8 @@ export default [
       "import/order": [
         "error",
         {
-          alphabetize: { order: "asc", caseInsensitive: false },
-          groups: ["builtin", "external", "internal", "index", "object", "parent", "sibling", "unknown"],
+          "alphabetize": { order: "asc", caseInsensitive: false },
+          "groups": ["builtin", "external", "internal", "index", "object", "parent", "sibling", "unknown"],
           "newlines-between": "never",
         },
       ],
